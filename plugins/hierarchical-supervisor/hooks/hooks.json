@@ -1,0 +1,67 @@
+{
+  "description": "Enforce L0/L1/L2 spawn rules and keep the Hierarchical Supervisor board in context.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/sessionstart.py\"",
+            "timeout": 8,
+            "statusMessage": "Loading HS board"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/userpromptsubmit.py\"",
+            "timeout": 8,
+            "statusMessage": "Refreshing HS protocol"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Agent|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/pretooluse.py\"",
+            "timeout": 8,
+            "statusMessage": "Checking HS spawn rules"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Agent|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/posttooluse.py\"",
+            "timeout": 8,
+            "statusMessage": "Updating HS org chart"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/stop.py\"",
+            "timeout": 8,
+            "statusMessage": "Checking open HS work"
+          }
+        ]
+      }
+    ]
+  }
+}

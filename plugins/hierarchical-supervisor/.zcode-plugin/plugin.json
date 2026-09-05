@@ -1,0 +1,24 @@
+{
+  "name": "hierarchical-supervisor",
+  "version": "0.2.0",
+  "description": "L0/L1/L2 hierarchical supervisor: domain managers, workers, postal board, and spawn enforcement.",
+  "description_i18n": {
+    "en": "L0/L1/L2 hierarchical supervisor: domain managers, workers, postal board, and spawn enforcement.",
+    "zh-CN": "L0/L1/L2 分层监督者：领域主管、工人、邮政黑板与派活执法。"
+  },
+  "author": {
+    "name": "local"
+  },
+  "license": "MIT",
+  "keywords": ["supervisor", "multi-agent", "hierarchy", "orchestration"],
+  "commands": "commands",
+  "skills": "skills",
+  "agents": "agents",
+  "hooks": "hooks/hooks.json",
+  "mcpServers": {
+    "hs-board": {
+      "command": "python3",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/mcp/server.py"]
+    }
+  }
+}
