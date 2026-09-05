@@ -63,6 +63,13 @@ L0 splits domains (e.g. `test`, `docs`), spawns one `hs-manager` each, managers 
 - Workspace: `<project>/.zcode/hs/board.json`
 - Fallback: plugin data dir under `~/.zcode/cli/plugins/data/`
 
+## Requirements
+
+Hooks and the MCP board start with `python` on PATH (not `python3`).
+
+- **Windows:** install Python and ensure `python` works in a terminal. The Microsoft Store `python3` stub does not work.
+- **Unix:** if you only have `python3`, add a `python` symlink or install `python-is-python3`.
+
 ## Limits of this v0.2
 
 - Hook sees the caller mainly via `agent_type` (`zcode-hs-manager` / `zcode-hs-worker`). If ZCode reports a generic name, L1/L2 enforcement is weaker and L0 still cannot skip to workers while the board is active.
@@ -72,5 +79,6 @@ L0 splits domains (e.g. `test`, `docs`), spawns one `hs-manager` each, managers 
 ## Dev
 
 ```bash
-python3 tests/test_hs_board.py
+python tests/test_hs_board.py
+python tests/test_hooks_and_mcp.py
 ```

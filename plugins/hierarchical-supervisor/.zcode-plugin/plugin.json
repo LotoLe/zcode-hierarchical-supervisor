@@ -1,6 +1,6 @@
 {
   "name": "hierarchical-supervisor",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "L0/L1/L2 hierarchical supervisor: domain managers, workers, postal board, and spawn enforcement.",
   "description_i18n": {
     "en": "L0/L1/L2 hierarchical supervisor: domain managers, workers, postal board, and spawn enforcement.",
@@ -17,7 +17,7 @@
   "hooks": "hooks/hooks.json",
   "mcpServers": {
     "hs-board": {
-      "command": "python3",
+      "command": "python",
       "args": ["${CLAUDE_PLUGIN_ROOT}/mcp/server.py"]
     }
   }

@@ -11,6 +11,8 @@ Settings → Plugin Management → Discover → **+** marketplace, then add eith
 
 Install **hierarchical-supervisor** and start a new session. Entry command: `/hs`.
 
+Hooks and MCP need `python` on PATH. On Windows, the Microsoft Store `python3` stub is not enough.
+
 ## Update
 
 If this directory is already your marketplace checkout:

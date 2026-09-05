@@ -12,7 +12,7 @@
         "en": "L0/L1/L2 hierarchical supervisor with postal board and spawn enforcement.",
         "zh-CN": "L0/L1/L2 分层监督者：邮政黑板与派活执法。"
       },
-      "version": "0.2.0",
+      "version": "0.2.1",
       "author": {
         "name": "local"
       },

@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import fcntl
 import json
 import os
 import re
@@ -147,12 +146,38 @@ def _lock_path(path: Path) -> Path:
     return path.with_suffix(path.suffix + ".lock")
 
 
+def _lock_exclusive(fh) -> None:
+    if os.name == "nt":
+        import msvcrt
+
+        fh.seek(0)
+        msvcrt.locking(fh.fileno(), msvcrt.LK_LOCK, 1)
+    else:
+        import fcntl
+
+        fcntl.flock(fh.fileno(), fcntl.LOCK_EX)
+
+
+def _unlock(fh) -> None:
+    if os.name == "nt":
+        import msvcrt
+
+        fh.seek(0)
+        msvcrt.locking(fh.fileno(), msvcrt.LK_UNLCK, 1)
+    else:
+        import fcntl
+
+        fcntl.flock(fh.fileno(), fcntl.LOCK_UN)
+
+
 def _atomic_write(path: Path, data: Dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     lock = _lock_path(path)
     lock.parent.mkdir(parents=True, exist_ok=True)
-    with open(lock, "a+", encoding="utf-8") as lf:
-        fcntl.flock(lf.fileno(), fcntl.LOCK_EX)
+    if not lock.exists() or lock.stat().st_size == 0:
+        lock.write_bytes(b"0")
+    with open(lock, "r+b") as lf:
+        _lock_exclusive(lf)
         try:
             fd, tmp = tempfile.mkstemp(prefix=".hs-board-", suffix=".json", dir=str(path.parent))
             try:
@@ -167,7 +192,7 @@ def _atomic_write(path: Path, data: Dict[str, Any]) -> None:
                     pass
                 raise
         finally:
-            fcntl.flock(lf.fileno(), fcntl.LOCK_UN)
+            _unlock(lf)
 
 
 def _read_json(path: Path) -> Optional[Dict[str, Any]]:
